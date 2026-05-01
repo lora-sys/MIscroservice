@@ -50,21 +50,20 @@ local_resource(
   trip_compile_cmd,
   deps=['./services/trip-service', './shared'], labels="compiles")
 
-docker_build_with_restart(
+docker_build(
   'ride-sharing/trip-service',
   '.',
-  entrypoint=['/app/build/trip-service'],
   dockerfile='./infra/development/docker/trip-service.Dockerfile',
-  only=[
-    './build/trip-service',
-    './shared',
-  ],
   live_update=[
     sync('./build', '/app/build'),
     sync('./shared', '/app/shared'),
+    run('touch /tmp/.restart-proc'),
   ],
 )
 
+k8s_yaml('./infra/development/k8s/trip-service-deployment.yaml')
+k8s_resource('trip-service', port_forwards=8083,
+             resource_deps=['trip-service-compile'], labels="services")
 
 ### End of Trip Service ###
 ### Web Frontend ###
