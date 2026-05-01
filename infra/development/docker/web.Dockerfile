@@ -1,5 +1,6 @@
 FROM docker.m.daocloud.io/library/node:20-alpine
 
+
 WORKDIR /app
 
 COPY web/package*.json ./

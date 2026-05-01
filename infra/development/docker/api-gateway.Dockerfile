@@ -17,3 +17,4 @@ ADD build build
 # 6. 直接使用 entr 监听文件变化并重启进程
 # 这行命令的效果等同于之前的 restart-helper
 ENTRYPOINT ["sh", "-c", "echo /tmp/.restart-proc | entr -n -r /app/build/api-gateway"]
+
